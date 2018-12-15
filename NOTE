@@ -1,0 +1,22 @@
+Regarding the hosting, what I mean is an embedded server within the app.
+The examiner will either manually enter their names, import a list of
+names or let them register.
+Then the examiner will generate a one time use code for every examinee
+that may expire on a specified duration or schedule.
+
+During the exam, realtime detailed statistics will be shown:
+
+1-who has answered most of the questions
+2-who is lagging behind
+3-who got the most correct
+4-who has the most wrong answers
+
+5-how long each question was answered
+6-which item took the longest/shortest time to answer
+7-which items were mostly skipped
+8-which items have he people change answers the most
+9-which ones got the most number of wrong
+10-the percentage or number of people who answered A B C D
+
+-which ones people got right most
+//if i click on a name I will see which individual statistics, etc.
