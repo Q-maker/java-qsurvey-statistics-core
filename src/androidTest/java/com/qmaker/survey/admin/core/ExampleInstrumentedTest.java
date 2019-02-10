@@ -1,4 +1,4 @@
-package com.qmaker.survey.statistic.core;
+package com.qmaker.survey.admin.core;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

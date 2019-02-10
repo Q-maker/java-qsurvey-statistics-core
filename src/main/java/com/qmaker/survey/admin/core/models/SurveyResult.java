@@ -1,26 +1,26 @@
-package com.qmaker.survey.statistic.core.models;
-
-import com.qmaker.core.entities.Author;
-import com.qmaker.core.entities.CopySheet;
+package com.qmaker.survey.admin.core.models;
 
 public class SurveyResult {
     //TODO voire dans quel mesure le result doit contenir le component supporté qui a joué ce questionnaire.
-    public String id, campaignId, copySheetId, authorId, authorDisplayName, readerName;
-    public int composedQuestionCount, consultedQuestionCount, totalQuestionCount,
+    public String id, collectId, questionnaireId, copySheetId, authorId, authorDisplayName, readerName;
+    public int composedQuestionCount, prospectedQuestionCount, totalQuestionCount,
             successCount, maxSuccessCount, failedCount, score, marks, maxMarks, marksAddedCount, marksSubtractedCount;
-    public long timeLeft, totalAllowedTime;
-    CopySheet copySheet;
+    public long elapsedTime, totalAllowedTime;
 
     public boolean isTimeOut() {
-        return timeLeft >= totalAllowedTime;
+        return elapsedTime >= totalAllowedTime;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getCampaignId() {
-        return campaignId;
+    public String getCollectId() {
+        return collectId;
+    }
+
+    public String getQuestionnaireId() {
+        return questionnaireId;
     }
 
     public String getCopySheetId() {
@@ -43,8 +43,8 @@ public class SurveyResult {
         return composedQuestionCount;
     }
 
-    public int getConsultedQuestionCount() {
-        return consultedQuestionCount;
+    public int getProspectedQuestionCount() {
+        return prospectedQuestionCount;
     }
 
     public int getTotalQuestionCount() {
@@ -83,29 +83,11 @@ public class SurveyResult {
         return marksSubtractedCount;
     }
 
-    public long getTimeLeft() {
-        return timeLeft;
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     public long getTotalAllowedTime() {
         return totalAllowedTime;
-    }
-
-    public CopySheet getCopySheet() {
-        return copySheet;
-    }
-
-    public static SurveyResult from(String campaignId, CopySheet copySheet) {
-        SurveyResult result = new SurveyResult();
-        result.id = copySheet.getId();//TODO revoir quel est le meilleur ID a donne ra cet entité.
-        result.campaignId = campaignId;
-        result.copySheetId = copySheet.getId();
-        Author author = copySheet.getAuthor();
-        if (author != null) {
-            result.authorId = author.getId();
-            result.authorDisplayName = author.getDisplayName();
-        }
-        result.copySheet = copySheet;
-        return result;
     }
 }
