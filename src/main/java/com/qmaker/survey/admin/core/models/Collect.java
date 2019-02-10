@@ -3,8 +3,10 @@ package com.qmaker.survey.admin.core.models;
 import com.qmaker.core.engines.Component;
 import com.qmaker.core.entities.Author;
 import com.qmaker.core.entities.CopySheet;
+import com.qmaker.core.entities.Qcm;
 import com.qmaker.core.entities.Questionnaire;
 import com.qmaker.core.utils.Bundle;
+import com.qmaker.core.utils.QcmUtils;
 import com.qmaker.survey.core.entities.Survey;
 
 import java.util.ArrayList;
@@ -111,8 +113,9 @@ public class Collect {
     private static void handleCopySheetSheets(Collect collect, List<CopySheet.Sheet> sheets, Questionnaire questionnaire) {
         collect.result.totalQuestionCount = sheets.size();
         SurveySheetResult sheetResult;
+        HashMap<String, Qcm> idQcmMap = QcmUtils.toIdQcmMap(questionnaire.getQcms());
         for (CopySheet.Sheet sheet : sheets) {
-            sheetResult = new SurveySheetResult(collect.result, sheet);
+            sheetResult = new SurveySheetResult(questionnaire.getConfig(), collect.result, sheet, idQcmMap.get(sheet.getId()));
             collect.sheetResults.add(sheetResult);
             if (sheet.composed) {
                 collect.result.composedQuestionCount++;
@@ -125,7 +128,7 @@ public class Collect {
             collect.result.marksAddedCount += sheetResult.marksAddedCount;
             collect.result.successCount += sheetResult.answerSuccessCount;
             collect.result.failedCount += sheetResult.answerFailedCount;
-            collect.result.maxSuccessCount+=sheetResult.answerMaxSuccessCount;
+            collect.result.maxSuccessCount += sheetResult.answerMaxSuccessCount;
             collect.result.marks += sheetResult.marks;
             collect.result.maxMarks += sheetResult.maxMars;
             collect.result.score = collect.result.marks > 0 ? collect.result.marks : 0;

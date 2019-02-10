@@ -2,6 +2,7 @@ package com.qmaker.survey.admin.core.models;
 
 import com.qmaker.core.entities.CopySheet;
 import com.qmaker.core.entities.Exercise;
+import com.qmaker.core.entities.QSummary;
 import com.qmaker.core.entities.Qcm;
 import com.qmaker.core.utils.QcmUtils;
 
@@ -24,7 +25,7 @@ public class SurveySheetResult {
 
     }
 
-    public SurveySheetResult(SurveyResult result, CopySheet.Sheet sheet) {
+    public SurveySheetResult(QSummary.Config config, SurveyResult result, CopySheet.Sheet sheet, Qcm qcm) {
         this.questionSignature = sheet.getQuestion().getSignature();
         this.surveyResultId = result.id;
         this.authorId = result.authorId;
@@ -46,6 +47,19 @@ public class SurveySheetResult {
         }
         List<Qcm.Proposition> examineAnswer = QcmUtils.getPropositionsWithTruth(sheet, true);
         this.answerMaxSuccessCount = examineAnswer.size();
+
+//        if (config.isRandomEnable() && qcm.isPropositionRandomizable()) {
+//
+//        } else {
+        int index = 0;
+        Qcm.Proposition originalProposition;
+        for (Qcm.Proposition proposition : sheet.getPropositions()) {
+            originalProposition = qcm.getProposition(index);
+            this.successAnswerState.put(originalProposition.toString(), proposition.sameAs(originalProposition));
+            this.selectedAnswerState.put(originalProposition.toString(), proposition.getTruth());
+            index++;
+//            }
+        }
 
 
     }
