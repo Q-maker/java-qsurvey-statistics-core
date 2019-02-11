@@ -76,7 +76,7 @@ public class Collect {
         return form;
     }
 
-    public HashMap<String, Object> getExtras() {
+    public HashMap<String, String> getExtras() {
         return new HashMap(extras);
     }
 

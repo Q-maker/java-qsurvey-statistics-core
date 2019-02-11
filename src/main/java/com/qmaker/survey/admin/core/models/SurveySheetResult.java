@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SurveySheetResult {
     int questionSignature;
-    public String id, surveyResultId, authorId, authorDisplayName;
+    public  String id, surveyResultId, authorId, authorDisplayName;
     public boolean composed, prospected;
     public int propositionCount, answerMaxSuccessCount, answerSuccessCount,
             answerFailedCount, score, marks, maxMars, pointAddedCount,
@@ -45,7 +45,7 @@ public class SurveySheetResult {
             }
         }
         List<Qcm.Proposition> examineAnswer = QcmUtils.getPropositionsWithTruth(sheet, true);
-        this.answerMaxSuccessCount = examineAnswer.size();
+
         int index = 0;
         Qcm.Proposition originalProposition;
         for (Qcm.Proposition submittedProposition : sheet.getPropositions()) {
@@ -53,41 +53,87 @@ public class SurveySheetResult {
             this.propositionResults.put(originalProposition.getSignature() + "", new PropositionResult(submittedProposition, originalProposition));
             index++;
         }
-
-
+        this.answerMaxSuccessCount = examineAnswer.size();
     }
 
-    public class PropositionResult {
-        boolean selected, truth;
-        int value, points;
-
-        PropositionResult() {
-
-        }
-
-        public PropositionResult(Qcm.Proposition submitted, Qcm.Proposition original) {
-            this.selected = submitted.getTruth();
-            this.truth = original.getTruth();
-            this.value = (truth ? 1 : 0) | (selected ? 2 : 0);
-            //TODO s'assurer qu'il est possble de configurer la note maw et min
-            this.points = submitted.sameAs(original) ? original.getExtras().getInt(Qcm.Proposition.EXTRA_POINTS, 1) : original.getExtras().getInt(Qcm.Proposition.EXTRA_POINTS, 0);
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public boolean isTruth() {
-            return truth;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public int getPoints() {
-            return points;
-        }
-
+    public int getQuestionSignature() {
+        return questionSignature;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getSurveyResultId() {
+        return surveyResultId;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public String getAuthorDisplayName() {
+        return authorDisplayName;
+    }
+
+    public boolean isComposed() {
+        return composed;
+    }
+
+    public boolean isProspected() {
+        return prospected;
+    }
+
+    public int getPropositionCount() {
+        return propositionCount;
+    }
+
+    public int getAnswerMaxSuccessCount() {
+        return answerMaxSuccessCount;
+    }
+
+    public int getAnswerSuccessCount() {
+        return answerSuccessCount;
+    }
+
+    public int getAnswerFailedCount() {
+        return answerFailedCount;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getMarks() {
+        return marks;
+    }
+
+    public int getMaxMars() {
+        return maxMars;
+    }
+
+    public int getPointAddedCount() {
+        return pointAddedCount;
+    }
+
+    public int getPointSubtractedCount() {
+        return pointSubtractedCount;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public long getTotalTimeAllowed() {
+        return totalTimeAllowed;
+    }
+
+    public HashMap<String, String> getExtras() {
+        return extras;
+    }
+
+    public HashMap<String, PropositionResult> getPropositionResults() {
+        return propositionResults;
+    }
+
 }
