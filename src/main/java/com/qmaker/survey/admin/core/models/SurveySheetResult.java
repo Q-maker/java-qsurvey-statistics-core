@@ -11,12 +11,13 @@ import java.util.List;
 
 public class SurveySheetResult {
     int questionSignature;
-    public  String id, surveyResultId, authorId, authorDisplayName;
-    public boolean composed, prospected;
-    public int propositionCount, answerMaxSuccessCount, answerSuccessCount,
+    String qcmId;
+    String id, surveyResultId, authorId, authorDisplayName;
+    boolean composed, prospected;
+    int propositionCount, answerMaxSuccessCount, answerSuccessCount,
             answerFailedCount, score, marks, maxMars, pointAddedCount,
             pointSubtractedCount;
-    public long elapsedTime, totalTimeAllowed;
+    long elapsedTime, totalTimeAllowed;
     HashMap<String, String> extras;
     HashMap<String, PropositionResult> propositionResults = new HashMap<>();
 
@@ -24,7 +25,7 @@ public class SurveySheetResult {
 
     }
 
-    public SurveySheetResult(QSummary.Config config, SurveyResult result, CopySheet.Sheet sheet, Qcm qcm) {
+    public SurveySheetResult(SurveyResult result, CopySheet.Sheet sheet, Qcm qcm) {
         this.questionSignature = sheet.getQuestion().getSignature();
         this.surveyResultId = result.id;
         this.authorId = result.authorId;
@@ -32,6 +33,7 @@ public class SurveySheetResult {
         this.composed = sheet.composed;
         this.prospected = sheet.prospected;
         this.propositionCount = sheet.getPropositionCount();
+        this.qcmId = sheet.getId();
 
         this.totalTimeAllowed = sheet.getExtras().getInt(CopySheet.Sheet.EXTRA_TIME_ALLOWED, 0);
         this.score = sheet.getExtras().getInt(CopySheet.EXTRA_SCORE, 0);
@@ -45,7 +47,8 @@ public class SurveySheetResult {
             }
         }
         List<Qcm.Proposition> examineAnswer = QcmUtils.getPropositionsWithTruth(sheet, true);
-
+        //TODO il ya un cas particulier ou une personne peut renseigner plusieurs proposition avec le même labael, et des valeur de vérité différente.
+        //Cela a pour cause que les deux Proposition ont même signature mais n'ont pas la même valeur de vérité.
         int index = 0;
         Qcm.Proposition originalProposition;
         for (Qcm.Proposition submittedProposition : sheet.getPropositions()) {

@@ -20,7 +20,7 @@ public class Collect {
     HashMap<String, String> form;
     HashMap<String, String> extras;
     SurveyResult result;
-    List<SurveySheetResult> sheetResults;
+    HashMap<String, SurveySheetResult> sheetResults;
     long lastModified = System.currentTimeMillis();
     String rawData;
 
@@ -28,7 +28,7 @@ public class Collect {
 
     }
 
-    public Collect(String collectId, SurveyResult result, List<SurveySheetResult> surveySheetResults) {
+    public Collect(String collectId, SurveyResult result, HashMap<String, SurveySheetResult> surveySheetResults) {
         this.result = result;
         this.result.collectId = collectId;
         this.sheetResults = surveySheetResults;
@@ -64,7 +64,7 @@ public class Collect {
         return result;
     }
 
-    public List<SurveySheetResult> getSheetResults() {
+    public HashMap<String, SurveySheetResult> getSheetResults() {
         return sheetResults;
     }
 
@@ -90,7 +90,7 @@ public class Collect {
 
     public static Collect from(String campaignId, Questionnaire questionnaire, CopySheet copySheet) {
         SurveyResult result = new SurveyResult();
-        List<SurveySheetResult> surveySheetResults = new ArrayList<>();
+        HashMap<String, SurveySheetResult> surveySheetResults = new HashMap();
         result.id = copySheet.getId();//TODO revoir quel est le meilleur ID a donne ra cet entité.
         result.copySheetId = copySheet.getId();
         result.elapsedTime = copySheet.getElapsedTime();
@@ -115,8 +115,8 @@ public class Collect {
         SurveySheetResult sheetResult;
         HashMap<String, Qcm> idQcmMap = QcmUtils.toIdQcmMap(questionnaire.getQcms());
         for (CopySheet.Sheet sheet : sheets) {
-            sheetResult = new SurveySheetResult(questionnaire.getConfig(), collect.result, sheet, idQcmMap.get(sheet.getId()));
-            collect.sheetResults.add(sheetResult);
+            sheetResult = new SurveySheetResult(collect.result, sheet, idQcmMap.get(sheet.getId()));
+            collect.sheetResults.put(sheet.getId(), sheetResult);
             if (sheet.composed) {
                 collect.result.composedQuestionCount++;
             }
