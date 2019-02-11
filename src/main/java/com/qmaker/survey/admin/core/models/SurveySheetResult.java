@@ -18,8 +18,7 @@ public class SurveySheetResult {
             marksSubtractedCount;
     public long elapsedTime, totalTimeAllowed;
     HashMap<String, String> extras;
-    HashMap<String, Boolean> selectedAnswerState = new HashMap<>();
-    HashMap<String, Boolean> successAnswerState = new HashMap<>();
+    HashMap<String, PropositionResult> propositionResults = new HashMap<>();
 
     SurveySheetResult() {
 
@@ -47,20 +46,48 @@ public class SurveySheetResult {
         }
         List<Qcm.Proposition> examineAnswer = QcmUtils.getPropositionsWithTruth(sheet, true);
         this.answerMaxSuccessCount = examineAnswer.size();
-
-//        if (config.isRandomEnable() && qcm.isPropositionRandomizable()) {
-//
-//        } else {
         int index = 0;
         Qcm.Proposition originalProposition;
-        for (Qcm.Proposition proposition : sheet.getPropositions()) {
+        for (Qcm.Proposition submittedProposition : sheet.getPropositions()) {
             originalProposition = qcm.getProposition(index);
-            this.successAnswerState.put(originalProposition.toString(), proposition.sameAs(originalProposition));
-            this.selectedAnswerState.put(originalProposition.toString(), proposition.getTruth());
+            this.propositionResults.put(originalProposition.getSignature() + "", new PropositionResult(submittedProposition, originalProposition));
             index++;
-//            }
         }
 
+
+    }
+
+    public class PropositionResult {
+        boolean selected, truth;
+        int value, points;
+
+        PropositionResult() {
+
+        }
+
+        public PropositionResult(Qcm.Proposition submitted, Qcm.Proposition original) {
+            this.selected = submitted.getTruth();
+            this.truth = original.getTruth();
+            this.value = (truth ? 1 : 0) | (selected ? 2 : 0);
+            //TODO s'assurer qu'il est possble de configurer la note maw et min
+            this.points = submitted.sameAs(original) ? original.getExtras().getInt(Qcm.Proposition.EXTRA_POINTS, 1) : original.getExtras().getInt(Qcm.Proposition.EXTRA_POINTS, 0);
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public boolean isTruth() {
+            return truth;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public int getPoints() {
+            return points;
+        }
 
     }
 }
