@@ -4,7 +4,7 @@ public class SurveyResult {
     //TODO voire dans quel mesure le result doit contenir le component supporté qui a joué ce questionnaire.
     public String id, collectId, questionnaireId, copySheetId, authorId, authorDisplayName, readerName;
     public int composedQuestionCount, prospectedQuestionCount, totalQuestionCount,
-            successCount, maxSuccessCount, failedCount, score, marks, maxMarks, marksAddedCount, marksSubtractedCount;
+            successCount, maxSuccessCount, failedCount, score, marks, maxMarks, pointAddedCount, pointSubtractedCount;
     public long elapsedTime, totalAllowedTime;
 
     public boolean isTimeOut() {
@@ -75,12 +75,12 @@ public class SurveyResult {
         return maxMarks;
     }
 
-    public int getMarksAddedCount() {
-        return marksAddedCount;
+    public int getPointAddedCount() {
+        return pointAddedCount;
     }
 
-    public int getMarksSubtractedCount() {
-        return marksSubtractedCount;
+    public int getPointSubtractedCount() {
+        return pointSubtractedCount;
     }
 
     public long getElapsedTime() {

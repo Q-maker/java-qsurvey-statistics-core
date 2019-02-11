@@ -123,9 +123,9 @@ public class Collect {
             if (sheet.prospected) {
                 collect.result.prospectedQuestionCount++;
             }
-            collect.result.marksAddedCount += sheetResult.marksAddedCount;
-            collect.result.marksSubtractedCount += sheetResult.marksSubtractedCount;
-            collect.result.marksAddedCount += sheetResult.marksAddedCount;
+            collect.result.pointAddedCount += sheetResult.pointAddedCount;
+            collect.result.pointSubtractedCount += sheetResult.pointSubtractedCount;
+            collect.result.pointAddedCount += sheetResult.pointAddedCount;
             collect.result.successCount += sheetResult.answerSuccessCount;
             collect.result.failedCount += sheetResult.answerFailedCount;
             collect.result.maxSuccessCount += sheetResult.answerMaxSuccessCount;

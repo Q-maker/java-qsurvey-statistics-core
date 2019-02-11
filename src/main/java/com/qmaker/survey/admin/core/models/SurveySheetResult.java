@@ -14,8 +14,8 @@ public class SurveySheetResult {
     public String id, surveyResultId, authorId, authorDisplayName;
     public boolean composed, prospected;
     public int propositionCount, answerMaxSuccessCount, answerSuccessCount,
-            answerFailedCount, score, marks, maxMars, marksAddedCount,
-            marksSubtractedCount;
+            answerFailedCount, score, marks, maxMars, pointAddedCount,
+            pointSubtractedCount;
     public long elapsedTime, totalTimeAllowed;
     HashMap<String, String> extras;
     HashMap<String, PropositionResult> propositionResults = new HashMap<>();
@@ -33,11 +33,11 @@ public class SurveySheetResult {
         this.prospected = sheet.prospected;
         this.propositionCount = sheet.getPropositionCount();
 
-        this.totalTimeAllowed = sheet.getExtra(CopySheet.Sheet.EXTRA_TIME_ALLOWED, Integer.class);
-        this.score = sheet.getExtra(CopySheet.EXTRA_SCORE, Integer.class);
-        this.marks = sheet.getExtra(CopySheet.EXTRA_MARKS, Integer.class);
-        this.maxMars = sheet.getExtra(CopySheet.EXTRA_MAX_MARKS, Integer.class);
-        this.elapsedTime = sheet.getExtra(Exercise.EXTRA_ELAPSED_TIME, Integer.class);
+        this.totalTimeAllowed = sheet.getExtras().getInt(CopySheet.Sheet.EXTRA_TIME_ALLOWED, 0);
+        this.score = sheet.getExtras().getInt(CopySheet.EXTRA_SCORE, 0);
+        this.marks = sheet.getExtras().getInt(CopySheet.EXTRA_MARKS, 0);
+        this.maxMars = sheet.getExtras().getInt(CopySheet.EXTRA_MAX_MARKS, 0);
+        this.elapsedTime = sheet.getExtras().getLong(Exercise.EXTRA_ELAPSED_TIME, 0);
         if (sheet.hasExtras()) {
             this.extras = new HashMap();
             for (String key : sheet.getExtras().keySet()) {
