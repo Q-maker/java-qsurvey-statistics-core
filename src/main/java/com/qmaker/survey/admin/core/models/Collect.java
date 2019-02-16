@@ -114,8 +114,11 @@ public class Collect {
         collect.result.totalQuestionCount = sheets.size();
         SurveySheetResult sheetResult;
         HashMap<String, Qcm> idQcmMap = QcmUtils.toIdQcmMap(questionnaire.getQcms());
+        Qcm qcm;
         for (CopySheet.Sheet sheet : sheets) {
-            sheetResult = new SurveySheetResult(collect.result, sheet, idQcmMap.get(sheet.getId()));
+            //TODO si qcm est null lancer une exception intégrityexception, le questionnaire en remote et local ne sont pas pareil.
+            qcm = idQcmMap.get(sheet.getId());
+            sheetResult = new SurveySheetResult(collect.result, sheet, qcm);
             collect.sheetResults.put(sheet.getId(), sheetResult);
             if (sheet.composed) {
                 collect.result.composedQuestionCount++;

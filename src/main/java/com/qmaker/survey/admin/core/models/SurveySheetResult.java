@@ -2,17 +2,18 @@ package com.qmaker.survey.admin.core.models;
 
 import com.qmaker.core.entities.CopySheet;
 import com.qmaker.core.entities.Exercise;
-import com.qmaker.core.entities.QSummary;
 import com.qmaker.core.entities.Qcm;
 import com.qmaker.core.utils.QcmUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import istat.android.base.tools.TextUtils;
 
 public class SurveySheetResult {
-    int questionSignature;
     String qcmId;
-    String id, surveyResultId, authorId, authorDisplayName;
+    String id, surveyResultId, authorId, authorDisplayName, questionDescription;
     boolean composed, prospected;
     int propositionCount, answerMaxSuccessCount, answerSuccessCount,
             answerFailedCount, score, marks, maxMars, pointAddedCount,
@@ -26,7 +27,6 @@ public class SurveySheetResult {
     }
 
     public SurveySheetResult(SurveyResult result, CopySheet.Sheet sheet, Qcm qcm) {
-        this.questionSignature = sheet.getQuestion().getSignature();
         this.surveyResultId = result.id;
         this.authorId = result.authorId;
         this.authorDisplayName = result.authorDisplayName;
@@ -35,7 +35,7 @@ public class SurveySheetResult {
         this.propositionCount = sheet.getPropositionCount();
         this.qcmId = sheet.getId();
 
-        this.totalTimeAllowed = sheet.getExtras().getInt(CopySheet.Sheet.EXTRA_TIME_ALLOWED, 0);
+        this.totalTimeAllowed = sheet.getExtras().getInt(Qcm.EXTRA_ALLOWED_TIME, 0);
         this.score = sheet.getExtras().getInt(CopySheet.EXTRA_SCORE, 0);
         this.marks = sheet.getExtras().getInt(CopySheet.EXTRA_MARKS, 0);
         this.maxMars = sheet.getExtras().getInt(CopySheet.EXTRA_MAX_MARKS, 0);
@@ -57,10 +57,21 @@ public class SurveySheetResult {
             index++;
         }
         this.answerMaxSuccessCount = examineAnswer.size();
+
+        if (!TextUtils.isEmpty(sheet.getQuestion().getLabel())) {
+            this.questionDescription = sheet.getQuestion().getLabel();
+        } else if (!sheet.getUriMap().isEmpty()) {
+            for (Map.Entry<String, String> entry : sheet.getUriMap().entrySet()) {
+                if (!TextUtils.isEmpty(entry.getValue())) {
+                    this.questionDescription = entry.getKey()+">"+entry.getValue();
+                    return;
+                }
+            }
+        }
     }
 
-    public int getQuestionSignature() {
-        return questionSignature;
+    public String getQuestionDescription() {
+        return questionDescription;
     }
 
     public String getId() {
