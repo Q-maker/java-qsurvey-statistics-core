@@ -1,21 +1,15 @@
 package com.qmaker.survey.admin.core.models;
 
 import com.qmaker.core.engines.Component;
-import com.qmaker.core.entities.Author;
 import com.qmaker.core.entities.CopySheet;
-import com.qmaker.core.entities.Qcm;
-import com.qmaker.core.entities.Questionnaire;
 import com.qmaker.core.utils.Bundle;
-import com.qmaker.core.utils.QcmUtils;
 import com.qmaker.survey.core.entities.Survey;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 //TODO trouver une meilleur structure pour la class de collecte.
 public class Collect {
-    final static String TEST_EXTRA_READER_NAME = "qmaker_reader_name";
     String id, campaignId, questionnaireId;
     HashMap<String, String> form;
     HashMap<String, String> extras;
@@ -84,57 +78,28 @@ public class Collect {
         return rawData;
     }
 
-    public static Collect from(Campaign campaign, Questionnaire questionnaire, CopySheet copySheet) {
-        return from(campaign.getId(), questionnaire, copySheet);
+    public static Collect from(Campaign campaign, CopySheet copySheet) {
+        return from(campaign.getId(), copySheet);
     }
 
-    public static Collect from(String campaignId, Questionnaire questionnaire, CopySheet copySheet) {
-        SurveyResult result = new SurveyResult();
+    public static Collect from(String campaignId, CopySheet copySheet) {
+        SurveyResult result = new SurveyResult(copySheet);
         HashMap<String, SurveySheetResult> surveySheetResults = new HashMap();
-        result.id = copySheet.getId();//TODO revoir quel est le meilleur ID a donne ra cet entité.
-        result.copySheetId = copySheet.getId();
-        result.elapsedTime = copySheet.getElapsedTime();
-        result.readerName = copySheet.getStringExtra(TEST_EXTRA_READER_NAME);
-        result.totalAllowedTime = questionnaire.getConfig().getDuration();
-        result.questionnaireId = questionnaire.getId();
-        Author author = copySheet.getAuthor();
-        if (author != null) {
-            result.authorId = author.getId();
-            result.authorDisplayName = author.getDisplayName();
-        }
         Collect collect = new Collect(copySheet.getId(), result, surveySheetResults);
         collect.campaignId = campaignId;
         collect.rawData = copySheet.toString();
+        collect.result.setCollectId(collect.getId());
         handleCopySheetExtras(collect, copySheet.getExtras());
-        handleCopySheetSheets(collect, copySheet.getSheets(), questionnaire);
+        handleCopySheetSheets(collect, copySheet.getSheets());
         return collect;
     }
 
-    private static void handleCopySheetSheets(Collect collect, List<CopySheet.Sheet> sheets, Questionnaire questionnaire) {
+    private static void handleCopySheetSheets(Collect collect, List<CopySheet.Sheet> sheets) {
         collect.result.totalQuestionCount = sheets.size();
         SurveySheetResult sheetResult;
-        HashMap<String, Qcm> idQcmMap = QcmUtils.toIdQcmMap(questionnaire.getQcms());
-        Qcm qcm;
         for (CopySheet.Sheet sheet : sheets) {
-            //TODO si qcm est null lancer une exception intégrityexception, le questionnaire en remote et local ne sont pas pareil.
-            qcm = idQcmMap.get(sheet.getId());
-            sheetResult = new SurveySheetResult(collect.result, sheet, qcm);
+            sheetResult = new SurveySheetResult(collect.result, sheet);
             collect.sheetResults.put(sheet.getId(), sheetResult);
-            if (sheet.composed) {
-                collect.result.composedQuestionCount++;
-            }
-            if (sheet.prospected) {
-                collect.result.prospectedQuestionCount++;
-            }
-            collect.result.pointAddedCount += sheetResult.pointAddedCount;
-            collect.result.pointSubtractedCount += sheetResult.pointSubtractedCount;
-            collect.result.pointAddedCount += sheetResult.pointAddedCount;
-            collect.result.successCount += sheetResult.answerSuccessCount;
-            collect.result.failedCount += sheetResult.answerFailedCount;
-            collect.result.maxSuccessCount += sheetResult.answerMaxSuccessCount;
-            collect.result.marks += sheetResult.marks;
-            collect.result.maxMarks += sheetResult.maxMars;
-            collect.result.score = collect.result.marks > 0 ? collect.result.marks : 0;
         }
     }
 
