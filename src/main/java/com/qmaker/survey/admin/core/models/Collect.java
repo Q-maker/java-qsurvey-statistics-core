@@ -5,6 +5,7 @@ import com.qmaker.core.entities.CopySheet;
 import com.qmaker.core.utils.Bundle;
 import com.qmaker.survey.core.entities.Survey;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Collect {
     HashMap<String, String> form;
     HashMap<String, String> extras;
     SurveyResult result;
-    HashMap<String, SurveySheetResult> sheetResults;
+    List<SurveySheetResult> sheetResults;
     long lastModified = System.currentTimeMillis();
     String rawData;
 
@@ -22,7 +23,7 @@ public class Collect {
 
     }
 
-    public Collect(String collectId, SurveyResult result, HashMap<String, SurveySheetResult> surveySheetResults) {
+    public Collect(String collectId, SurveyResult result, List<SurveySheetResult> surveySheetResults) {
         this.result = result;
         this.result.collectId = collectId;
         this.sheetResults = surveySheetResults;
@@ -58,7 +59,7 @@ public class Collect {
         return result;
     }
 
-    public HashMap<String, SurveySheetResult> getSheetResults() {
+    public List<SurveySheetResult> getSheetResults() {
         return sheetResults;
     }
 
@@ -84,7 +85,7 @@ public class Collect {
 
     public static Collect from(String campaignId, CopySheet copySheet) {
         SurveyResult result = new SurveyResult(copySheet);
-        HashMap<String, SurveySheetResult> surveySheetResults = new HashMap();
+        List<SurveySheetResult> surveySheetResults = new ArrayList();
         Collect collect = new Collect(copySheet.getId(), result, surveySheetResults);
         collect.campaignId = campaignId;
         collect.rawData = copySheet.toString();
@@ -99,7 +100,7 @@ public class Collect {
         SurveySheetResult sheetResult;
         for (CopySheet.Sheet sheet : sheets) {
             sheetResult = new SurveySheetResult(collect.result, sheet);
-            collect.sheetResults.put(sheet.getId(), sheetResult);
+            collect.sheetResults.add(sheetResult);
         }
     }
 
