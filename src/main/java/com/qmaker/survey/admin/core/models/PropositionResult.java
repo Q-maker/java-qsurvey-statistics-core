@@ -27,6 +27,10 @@ public class PropositionResult {
         }
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public boolean isSelected() {
         return selected;
     }

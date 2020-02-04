@@ -10,9 +10,10 @@ public class SurveyResult {
     //TODO voire dans quel mesure le this doit contenir le component supporté qui a joué ce questionnaire.
     String id, collectId, questionnaireId, copySheetId, authorId, authorDisplayName, readerName;
     int composedQuestionCount, prospectedQuestionCount, totalQuestionCount,
-            successCount, maxSuccessCount, failedCount, score, marks, maxMarks, pointAddedCount, pointSubtractedCount;
+            successCount, maxSuccessCount, failureCount, score, marks, maxMarks, pointAddedCount, pointSubtractedCount;
     long elapsedTime, allowedTime, timeLeft;
     boolean questionnaireRandomized;
+    int finalizationState;
 
     public SurveyResult() {
 
@@ -30,7 +31,7 @@ public class SurveyResult {
         this.totalQuestionCount = copySheet.getSheetCount();
         Bundle copySheetExtras = copySheet.getExtras();
         this.successCount = copySheetExtras.getInt(CopySheet.EXTRA_SUCCESS_COUNT);
-        this.failedCount = copySheetExtras.getInt(CopySheet.EXTRA_FAILED_COUNT);
+        this.failureCount = copySheetExtras.getInt(CopySheet.EXTRA_FAILURE_COUNT);
         this.maxSuccessCount = copySheetExtras.getInt(CopySheet.EXTRA_MAX_SUCCESS_COUNT);
 
         this.score = copySheetExtras.getInt(CopySheet.EXTRA_SCORE);
@@ -42,11 +43,16 @@ public class SurveyResult {
 
         this.prospectedQuestionCount = copySheet.getProspectedExerciseCount();
         this.composedQuestionCount = copySheet.getComposedExerciseCount();
+            this.finalizationState = copySheet.getFinalizationState();
         Author author = copySheet.getAuthor();
         if (author != null) {
             this.authorId = author.getId();
             this.authorDisplayName = author.getDisplayName();
         }
+    }
+
+    public int getFinalizationState() {
+        return finalizationState;
     }
 
     public void setCollectId(String collectId) {
@@ -109,8 +115,8 @@ public class SurveyResult {
         return maxSuccessCount;
     }
 
-    public int getFailedCount() {
-        return failedCount;
+    public int getFailureCount() {
+        return failureCount;
     }
 
     public int getScore() {
