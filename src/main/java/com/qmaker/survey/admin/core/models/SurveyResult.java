@@ -30,16 +30,16 @@ public class SurveyResult {
         this.questionnaireRandomized = copySheet.isQuestionnaireRandomized();
         this.totalQuestionCount = copySheet.getSheetCount();
         Bundle copySheetExtras = copySheet.getExtras();
-        this.successCount = copySheetExtras.getInt(CopySheet.EXTRA_SUCCESS_COUNT);
-        this.failureCount = copySheetExtras.getInt(CopySheet.EXTRA_FAILURE_COUNT);
-        this.maxSuccessCount = copySheetExtras.getInt(CopySheet.EXTRA_MAX_SUCCESS_COUNT);
-
-        this.score = copySheetExtras.getInt(CopySheet.EXTRA_SCORE);
-        this.marks = copySheetExtras.getInt(CopySheet.EXTRA_MARKS);
-        this.maxMarks = copySheetExtras.getInt(CopySheet.EXTRA_MAX_MARKS);
-
-        this.pointAddedCount = copySheetExtras.getInt(CopySheet.EXTRA_POINTS_ADDED);
-        this.pointSubtractedCount = copySheetExtras.getInt(CopySheet.EXTRA_POINTS_SUBTRACTED);
+//        this.successCount = copySheetExtras.getInt(CopySheet.EXTRA_SUCCESS_COUNT);
+//        this.failureCount = copySheetExtras.getInt(CopySheet.EXTRA_FAILURE_COUNT);
+//        this.maxSuccessCount = copySheetExtras.getInt(CopySheet.EXTRA_MAX_SUCCESS_COUNT);
+//
+//        this.score = copySheetExtras.getInt(CopySheet.EXTRA_SCORE);
+//        this.marks = copySheetExtras.getInt(CopySheet.EXTRA_MARKS);
+//        this.maxMarks = copySheetExtras.getInt(CopySheet.EXTRA_MAX_MARKS);
+//
+//        this.pointAddedCount = copySheetExtras.getInt(CopySheet.EXTRA_POINTS_ADDED);
+//        this.pointSubtractedCount = copySheetExtras.getInt(CopySheet.EXTRA_POINTS_SUBTRACTED);
 
         this.prospectedQuestionCount = copySheet.getProspectedExerciseCount();
         this.composedQuestionCount = copySheet.getComposedExerciseCount();
