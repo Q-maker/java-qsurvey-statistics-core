@@ -2,7 +2,6 @@ package com.qmaker.survey.admin.core.models;
 
 import com.qmaker.core.entities.CopySheet;
 import com.qmaker.core.entities.Exercise;
-import com.qmaker.core.entities.Qcm;
 import com.qmaker.core.utils.Bundle;
 
 import java.util.HashMap;
@@ -27,7 +26,7 @@ public class SurveySheetResult {
         this.authorDisplayName = result.authorDisplayName;
         this.composed = sheet.composed;
         this.prospected = sheet.prospected;
-        this.propositionCount = sheet.getPropositionCount();
+        this.propositionCount = sheet.getInputCount();
 //        this.qcmId = sheet.getId();
 //
 //        this.totalTimeAllowed = sheet.getExtras().getInt(Qcm.EXTRA_ALLOWED_TIME, 0);
@@ -41,9 +40,9 @@ public class SurveySheetResult {
 //        }
         //TODO il ya un cas particulier ou une personne peut renseigner plusieurs proposition avec le même labael, et des valeur de vérité différente.
         //Cela a pour cause que les deux Proposition ont même signature mais n'ont pas la même valeur de vérité.
-        for (Qcm.Proposition submittedProposition : sheet.getPropositions()) {
-            this.propositionResults.put(submittedProposition.getSignature() + "", new PropositionResult(submittedProposition));
-        }
+//        for (Qcm.Proposition submittedProposition : sheet.getInputs()) {
+//            this.propositionResults.put(submittedProposition.getSignature() + "", new PropositionResult(submittedProposition));
+//        }
 //        this.maxSuccessCount = sheetExtras.getInt(CopySheet.EXTRA_MAX_SUCCESS_COUNT);
 //        this.successCount = sheetExtras.getInt(CopySheet.EXTRA_SUCCESS_COUNT);
 //        this.failedCount = sheetExtras.getInt(CopySheet.EXTRA_FAILURE_COUNT);

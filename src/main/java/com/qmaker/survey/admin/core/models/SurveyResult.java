@@ -22,12 +22,12 @@ public class SurveyResult {
     public SurveyResult(CopySheet copySheet) {
         this.id = copySheet.getId();//TODO revoir quel est le meilleur ID a donne ra cet entité.
         this.copySheetId = copySheet.getId();
-        this.elapsedTime = copySheet.getElapsedTime();
+        this.elapsedTime = copySheet.getElapsedTimeMillisec();
         this.readerName = copySheet.getStringExtra(Test.EXTRA_READER_NAME);
-        this.allowedTime = copySheet.getAllowedTime();
-        this.timeLeft = copySheet.getTimeLeft();
+        this.allowedTime = copySheet.getAllowedTimeMillisec();
+        this.timeLeft = copySheet.getTimeLeftMillisec();
         this.questionnaireId = copySheet.getQuestionnaireId();
-        this.questionnaireRandomized = copySheet.isQuestionnaireRandomized();
+//        this.questionnaireRandomized = copySheet.isQuestionnaireRandomized();
         this.totalQuestionCount = copySheet.getSheetCount();
         Bundle copySheetExtras = copySheet.getExtras();
 //        this.successCount = copySheetExtras.getInt(CopySheet.EXTRA_SUCCESS_COUNT);
