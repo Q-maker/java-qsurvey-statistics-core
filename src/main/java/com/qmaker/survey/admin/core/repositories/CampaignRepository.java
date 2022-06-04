@@ -15,7 +15,7 @@ public interface CampaignRepository {
 
     List<Campaign> findAllByQuestionnaireSignature(String questionnaireSignature, PageDescriptor pageDescriptor, SortDescriptor sortDescriptor, HashMap<String, Object> filterMap);
 
-    List<Campaign> findAllByOwnerId(String ownerId, PageDescriptor pageDescriptor, SortDescriptor sortDescriptor, HashMap<String, Object> filterMap);
+    List<Campaign> findAll(PageDescriptor pageDescriptor, SortDescriptor sortDescriptor, HashMap<String, Object> filterMap);
 
     boolean deleteById(String id);
 
